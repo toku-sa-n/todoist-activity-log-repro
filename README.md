@@ -30,5 +30,3 @@ The script supplies fixed responses through `customFetch`.
 
 The error occurs at `userPlanLimits.current.activityLog`.
 Both Boolean values should be accepted.
-
-`PASS` and exit code 0 mean the bug was reproduced as expected, not that the SDK is working correctly.
