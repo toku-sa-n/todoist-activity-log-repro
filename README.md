@@ -2,7 +2,7 @@
 
 The Todoist API documents `activity_log` as a Boolean, but
 `@doist/todoist-sdk` 15.13.0 validates it as a number.
-Both `true` and `false` therefore cause a `ZodError`.
+This example passes `activity_log: true` and produces a `ZodError`.
 
 - [API documentation](https://developer.todoist.com/api/v1/#tag/Sync/User-plan-limits)
 - [SDK schema](https://github.com/Doist/todoist-sdk-typescript/blob/v15.13.0/src/types/sync/resources/user-plan-limits.ts)
@@ -20,13 +20,22 @@ npm test
 
 The script supplies fixed responses through `customFetch`.
 
-## Results
+## Result
 
-| `activity_log` | Actual result |
-|---|---|
-| `true` | `ZodError`: expected number, received boolean |
-| `false` | `ZodError`: expected number, received boolean |
-| Omitted | Success |
+```text
+ZodError: [
+  {
+    "expected": "number",
+    "code": "invalid_type",
+    "path": [
+      "userPlanLimits",
+      "current",
+      "activityLog"
+    ],
+    "message": "Invalid input: expected number, received boolean"
+  }
+]
+```
 
-The error occurs at `userPlanLimits.current.activityLog`.
-Both Boolean values should be accepted.
+The Boolean value should be accepted. Instead, the SDK throws this error and
+`npm test` exits with code 1, reproducing the bug.
