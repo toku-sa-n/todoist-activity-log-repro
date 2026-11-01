@@ -53,14 +53,13 @@ for (const value of [true, false, undefined]) {
       }]);
       return true;
     });
-    console.log(`activity_log=${value}: ZodError at userPlanLimits.current.activityLog (expected number, received boolean)`);
+    console.log(`BUG REPRODUCED: activity_log=${value} rejected at userPlanLimits.current.activityLog (expected number, received boolean)`);
   } else {
     const result = await run();
     assert.deepEqual(result.userPlanLimits, {
       current: { maxProjects: 10 },
       next: null,
     });
-    console.log('activity_log omitted: success (maxProjects=10, next=null)');
+    console.log('ACCEPTED AS EXPECTED: activity_log omitted');
   }
 }
-console.log('PASS: all 3 cases matched; no live API calls.');
